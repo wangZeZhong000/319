@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script src="jq.js"></script>
+<script>
+    jQuery.extend({
+        //$.insert($("body"),$("<div></div>"),true)
+        insert:function($parent,$child,isAppend){
+            $parent.each(function(){
+                var parent=this;
+                var firstChild=parent.firstChild;
+
+                $child.each(function(){
+                    var child =this;
+
+                    var fnName=isAppend?"appendChild":"insertBefore";
+
+                    //parent["appendChild"](child,firstChild)
+                    parent[fnName](child.cloneNode(true),firstChild);
+
+//                    if(isAppend){
+//                        parent.appendChild(child.cloneNode(true));
+//                    }else{
+//                        parent.insertBefore(child.cloneNode(true),firstChild);
+//                    }
+                })
+            })
+        }
+    });
+
+    jQuery.fn.extend({
+        appendTo:function(){
+            var $parent=jQuery(arguments[0]);
+            var $child=this;
+
+            jQuery.insert($parent,$child,true);
+            return this;
+        },
+        prependTo:function(){
+            var $parent=jQuery(arguments[0]);
+            var $child=this;
+
+            jQuery.insert($parent,$child);
+
+            return this;
+        },
+        append:function(){
+            var $parent=this;
+            var $child=jQuery(arguments[0]);
+
+            jQuery.insert($parent,$child,true);
+
+            return this;
+        },
+        prepend:function(){
+            var $parent=this;
+            var $child=jQuery(arguments[0]);
+            jQuery.insert($parent,$child);
+
+            return this;
+        },
+
+    })
+
+    $.insert($("body"),$("<input/><span>s1</span>"),true)
+</script>
+</html>

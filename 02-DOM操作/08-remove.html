@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="d1">d1</div>
+<div id="d2">d2</div>
+</body>
+<script src="jq.js"></script>
+<script>
+    jQuery.extend({
+        //$.insert($("body"),$("<div></div>"),true)
+        insert:function(parent,child,isAppend){
+            var $parent=jQuery(parent);
+            var $child=jQuery(child);
+
+
+
+            $parent.each(function(){
+                var parent=this;
+                var firstChild=parent.firstChild;
+
+                $child.each(function(){
+                    var child =this;
+
+                    var fnName=isAppend?"appendChild":"insertBefore";
+
+                    //parent["appendChild"](child,firstChild)
+                    parent[fnName](child.cloneNode(true),firstChild);
+
+//                    if(isAppend){
+//                        parent.appendChild(child.cloneNode(true));
+//                    }else{
+//                        parent.insertBefore(child.cloneNode(true),firstChild);
+//                    }
+                })
+            })
+        }
+    });
+
+    jQuery.fn.extend({
+        appendTo:function(){
+            var $parent=arguments[0];
+            var $child=this;
+
+            jQuery.insert($parent,$child,true);
+            return this;
+        },
+        prependTo:function(){
+            var $parent=arguments[0];
+            var $child=this;
+
+            jQuery.insert($parent,$child);
+
+            return this;
+        },
+        append:function(){
+            var $parent=this;
+            var $child=arguments[0];
+
+            jQuery.insert($parent,$child,true);
+
+            return this;
+        },
+        prepend:function(){
+            var $parent=this;
+            var $child=arguments[0];
+            jQuery.insert($parent,$child);
+
+            return this;
+        },
+
+    })
+
+    jQuery.fn.extend({
+        remove:function(){
+            //原生JS：父元素.removeChild(子元素)
+            //子元素：存放于this中，需要遍历this获取每一个子元素
+            //父元素：根据子元素的parentNode，从而获取父元素
+
+            return this.each(function(){
+                var child=this;
+                var parent=child.parentNode;
+                parent.removeChild(child);
+            });
+        }
+    });
+
+    $("#d1").remove().appendTo("#d2");
+</script>
+</html>

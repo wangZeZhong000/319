@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div{
+            border:1px solid #daa520;
+            padding:10px;
+        }
+    </style>
+</head>
+<body>
+<div>d1</div>
+<div>d2</div>
+</body>
+<script src="jq.js"></script>
+<script>
+    jQuery.fn.extend({
+        //child可能是一个html标签，也可能是一个选择器，也可能是一个DOM元素
+        append:function(){
+            var $child=jQuery(arguments[0]);//{0:input,1:a,2:div,length:3}
+
+            //需要将$child中的每一个DOM元素遍历追加到this中的每一个DOM元素下面
+            //this:$("div")
+            return this.each(function(){
+                var parent=this;
+
+                //遍历$child中的每一个DOM元素，因为$child是一个jq对象，所以可以直接访问道原型中的each方法
+                $child.each(function(){
+                    var child=this;
+
+                    //将child追加到parent中-->DOM操作
+                    //parent.innerHTML+=child;//错误的做法，原因：child是一个对象类型，innerHTML属性值是一个字符串值，这段代码会将child这个对象转换为字符串
+
+                    parent.appendChild(child.cloneNode(true));
+                })
+            })
+        }
+    });
+
+    //页面中有2个div，子节点有3个，最终页面中看到的子节点应该有6个
+    $("div").append("<input/><a>a1</a><div>d3</div>")
+            .append("<input type='button'/><input type='checkbox'/>");
+
+
+</script>
+</html>

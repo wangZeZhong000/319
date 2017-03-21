@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    //选择器：字符串  -->$("body") $("div>span")
+    //DOM元素：对象  页面中的html标签所对应的js对象称之为DOM元素
+            //dom元素本身是一个对象，具有对象的相关特性
+            //不过DOM元素特殊的地方在于多了一些特殊的属性、方法，这些属性和方法称之为DOM操作
+
+    var div=document.createElement("div");
+    div.innerHTML="<a></a>"
+    div.nodeName
+    div.nodeType
+    div.parentNode
+    div.previousSibling
+    div.nextSibling
+    div.childNodes
+
+    var bodys=document.querySelectorAll("body");
+    bodys[0]
+</script>
+</html>

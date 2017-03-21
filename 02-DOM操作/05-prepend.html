@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="d1">d1</div>
+<div id="d2">d2</div>
+
+</body>
+<script src="jq.js"></script>
+<script>
+    jQuery.fn.extend({
+        //$("body").prepend("<div>d1</div>");
+        prepend: function () {
+            var $child = jQuery(arguments[0]);
+
+            return this.each(function () {
+                var parent = this;
+                var firstChild=parent.firstChild;
+
+                $child.each(function () {
+                    var child = this;
+
+                    //将child插入到parent中并且作为parent的第一个节点
+                    //父节点.insertBefore(要插入的节点A,节点B)-->A在B之前
+
+                    //应该将child插入到parent现有的第一个子节点的前面
+                    parent.insertBefore(child.cloneNode(true),firstChild);
+
+
+
+                });
+            })
+        },
+
+        //$("<div>d1</div>").prependTo("body");
+        prependTo:function(){
+
+            //父元素.prepend(子元素)
+            var $parent=jQuery(arguments[0]);
+            var $child=this;
+
+            $parent.prepend($child);
+
+            return $child;
+        }
+    });
+
+//    $("body").prepend("<div>d33</div><div>d44</div>");
+
+    $("<div>ddd</div>").prependTo("#d1").prependTo("#d2");
+</script>
+</html>

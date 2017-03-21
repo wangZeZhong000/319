@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script src="jq.js"></script>
+<script>
+    jQuery.fn.extend({
+        appendTo:function(){
+            //1、将参数转换为jquery对象
+            var $parent=jQuery(arguments[0]);
+            //2、遍历this
+            return this.each(function(){
+                var child=this;
+
+                //3、遍历$parent
+                $parent.each(function(){
+                    var parent=this;
+
+                    parent.appendChild(child.cloneNode(true));
+                });
+
+            });
+        },
+        //$("body").append("<div>d1</div>")
+        append:function(){//arguments[0]:"<div>d1</div>"
+            //....appendTo(.....)
+
+            var $child=$(arguments[0]);
+            $child.appendTo(this);//这一段代码的返回值是子元素的容器:$child
+            return this;//this是一个父元素的容器
+        }
+    });
+
+//    $("<div>d3</div>").appendTo("body");
+
+//    var $1=$("*");
+//    console.log($($1));
+
+    $("body").append("<div>d1</div>")
+</script>
+</html>

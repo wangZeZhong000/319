@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="d1">d1</div>
+</body>
+<script src="jq.js"></script>
+<script>
+    jQuery.fn.extend({
+        before: function (prevSibling) {
+            var $prev = jQuery(prevSibling);
+            var $next = this;
+
+            //要将$prev中的元素遍历的追加到$next中的所有元素之前
+            $next.each(function () {
+                var next = this;
+
+                $prev.each(function () {
+                    var prev = this;
+
+                    //因为next是已知的，prev是要插入的元素-->实现将prev插入到next之前
+                    //原生JS：父节点.insertBefore(prev,next)
+                    //要找到父节点，因为next是已知的，可以通过next.parentNode找到他们的父节点(但是prev不行，因为prev是要插入的节点，它暂时没有父节点)
+                    var parent = next.parentNode;
+
+                    parent.insertBefore(prev.cloneNode(true), next);
+
+                });
+
+
+            });
+            return this;
+        },
+        after: function (nextSibling) {
+            var $prev = this;
+            var $next = jQuery(nextSibling);
+            $prev.each(function(){
+                var prev=this;
+
+                $next.each(function(){
+                   var next=this;
+
+                    //已知的是prev，要将next插入到prev之后，实际上就是要将next插入到prev的下一个兄弟节点的前面
+                    prev.parentNode.insertBefore(next.cloneNode(true),prev.nextSibling);
+
+                });
+            });
+            return this;
+        }
+    });
+
+    //将input标签插入到d1之前
+    $("#d1").before("<input/><span>前面的</span>").after("<span>后面的</span><span>s2</span>")
+</script>
+</html>
